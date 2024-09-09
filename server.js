@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
-const cors = require('cors'); // Import CORS
+const cors = require('cors'); // Import the CORS package
 
 // Create an Express app
 const app = express();
@@ -22,7 +22,8 @@ const io = socketIo(server, {
     origin: '*', // Allow all origins
     methods: ['GET', 'POST'],
     credentials: true
-  }
+  },
+  transports: ['websocket', 'polling'], // Allow both WebSocket and polling
 });
 
 // Handle client connection
