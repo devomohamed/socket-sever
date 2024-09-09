@@ -6,16 +6,20 @@ const cors = require('cors'); // Import the CORS package
 // Create an Express app
 const app = express();
 
-app.use(cors())
-
-// Use CORS middleware to allow your Angular app to connect
-// app.use();
+// Use CORS middleware to allow all origins
+app.use(cors());
 
 // Create an HTTP server
 const server = http.createServer(app);
 
-// Integrate Socket.io with CORS settings
-const io = socketIo(server);
+// Integrate Socket.io with CORS settings to allow all origins
+const io = socketIo(server, {
+  cors: {
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST"],
+    credentials: true // Allow credentials if needed
+  }
+});
 
 // Handle client connection
 io.on('connection', (socket) => {
