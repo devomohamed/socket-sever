@@ -1,46 +1,50 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
-const cors = require('cors'); // Import the CORS package
+const cors = require('cors'); // Import CORS
 
 // Create an Express app
 const app = express();
 
-// Use CORS middleware to allow all origins
-app.use(cors());
+// Enable CORS for all origins
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST'],
+  credentials: true // Allow credentials if needed
+}));
 
 // Create an HTTP server
 const server = http.createServer(app);
 
-// Integrate Socket.io with CORS settings to allow all origins
+// Integrate Socket.io with CORS settings
 const io = socketIo(server, {
   cors: {
-    origin: "*", // Allow all origins
-    methods: ["GET", "POST"],
-    credentials: true // Allow credentials if needed
+    origin: '*', // Allow all origins
+    methods: ['GET', 'POST'],
+    credentials: true
   }
 });
 
 // Handle client connection
 io.on('connection', (socket) => {
-    console.log('A user connected');
+  console.log('A user connected');
 
-    // Listen for messages from the client
-    socket.on('sendMessage', (message) => {
-        console.log('Message received from client: ', message);
+  // Listen for messages from the client
+  socket.on('sendMessage', (message) => {
+    console.log('Message received from client: ', message);
 
-        // Send a response back to the client
-        socket.emit('receiveMessage', `Server received your message: ${message}`);
-    });
+    // Send a response back to the client
+    socket.emit('receiveMessage', `Server received your message: ${message}`);
+  });
 
-    // Handle client disconnect
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
+  // Handle client disconnect
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
 });
 
 // Start the server
-const PORT = process.env.PORT || 3200;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
