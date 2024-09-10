@@ -8,7 +8,7 @@ const app = express();
 
 // Enable CORS for all origins
 app.use(cors({
-  origin: '*', // Allow all origins
+  origin: 'http://localhost:4300/', // Allow all origins
   methods: ['GET', 'POST'],
   credentials: true // Allow credentials if needed
 }));
@@ -19,7 +19,7 @@ const server = http.createServer(app);
 // Integrate Socket.io with CORS settings
 const io = socketIo(server, {
   cors: {
-    origin: '*', // Allow all origins
+    origin: 'http://localhost:4300/', // Allow all origins
     methods: ['GET', 'POST'],
     credentials: true
   },
